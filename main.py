@@ -13,7 +13,7 @@ from sentence_transformers import SentenceTransformer, util
 def load_model():
     return SentenceTransformer('all-MiniLM-L6-v2')
 
-model = load_model()
+model = None
 # ─────────────────────────────────────────────
 #  ★  CREDENTIALS — Edit here to add/remove users
 # ─────────────────────────────────────────────
@@ -147,6 +147,10 @@ def find_duplicate(issue_type, location):
 
     return result
 def check_duplicate_semantic(new_desc):
+    global model
+    if model is None:
+        model = load_model()
+    
     conn = sqlite3.connect("complaints.db")
     cursor = conn.cursor()
 
